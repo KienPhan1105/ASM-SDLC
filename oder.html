@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -56,17 +55,14 @@
 </head>
 <body>
 
-<!-- Top bar -->
-<div class="top-bar text-end pe-4 py-2 bg-white shadow-sm">
-  <a href="login.html">Đăng nhập</a>
-  <a href="register.html">Đăng ký</a>
-</div>
 
 <header class="py-3">
   <div class="container d-flex flex-wrap align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-3">
+      <a href="index.php">
         <img src="image/hospital.png" alt="BTEC Hospital Logo" width="150">
-        <h1 class="h5 mb-0 text-white">Bệnh viện BTEC FPT</h1>
+      </a>
+      <a href="index.php" class="h5 mb-0 text-white text-decoration-none">Bệnh viện BTEC FPT</a>
     </div>
     <nav class="navbar navbar-expand-md">
       <div class="container-fluid">
@@ -75,9 +71,13 @@
         </button>
         <div class="collapse navbar-collapse" id="mainNav">
           <ul class="navbar-nav me-auto mb-2 mb-md-0">
-            <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
-            <li class="nav-item"><a class="nav-link" href="oder.php">Đặt khám</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Tra cứu</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.php">Trang chủ</a></li>
+            <li class="nav-item"><a class="nav-link" href="oder.html">Đặt khám</a></li>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#searchBar" role="button" aria-expanded="false" aria-controls="searchBar">
+                Tra cứu
+              </a>
+            </li>
             <li class="nav-item"><a class="nav-link" href="https://bachmai.gov.vn">Cổng thông tin</a></li>
           </ul>
         </div>
@@ -88,6 +88,14 @@
     </div>
   </div>
 </header>
+
+<!-- 🔍 Thanh tìm kiếm ẩn/hiện -->
+<div class="container mt-3 collapse" id="searchBar">
+  <form class="d-flex" action="search.php" method="get">
+    <input class="form-control me-2" type="search" name="query" placeholder="Nhập thông tin cần tra cứu" aria-label="Search">
+    <button class="btn btn-outline-primary" type="submit">Tìm</button>
+  </form>
+</div>
 
 <main class="container">
   <div class="booking-container">

@@ -54,48 +54,50 @@ include 'connect.php';
   }
 
   .slideshow {
-    position: relative;
-    width: 100%;
-    max-width: 1200px;
-    margin: 20px auto;
-    aspect-ratio: 3 / 2;
-    overflow: hidden;
-    border-radius: 10px;
-  }
+  position: relative;
+  width: 100vw; /* Chiếm toàn bộ chiều ngang trình duyệt */
+  height: auto;
+  aspect-ratio: 16 / 6; /* Tỷ lệ hình ảnh ngang, tùy chỉnh được */
+  margin: 0 auto 30px;
+  overflow: hidden;
+  border-radius: 10px;
+}
 
-  .slideshow img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.5s;
-  }
+.slideshow img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
 
-  .slideshow img.active {
-    opacity: 1;
-  }
+.slideshow img.active {
+  opacity: 1;
+}
 
-  .dots {
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
-    text-align: center;
-  }
+.dots {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+}
 
-  .dot {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    margin: 0 5px;
-    background: #fff4;
-    border-radius: 50%;
-    cursor: pointer;
-  }
+.dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 5px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  cursor: pointer;
+}
 
-  .dot.active {
-    background: #fff;
-  }
+.dot.active {
+  background: #fff;
+}
+
 
   .custom-orange-dark {
     color: #E65100;
