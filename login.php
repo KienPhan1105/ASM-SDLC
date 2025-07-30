@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['user_name'] = $fullname;
 
                 // Chuyển hướng đến trang chính
-                header("Location: index.html");
+                header("Location: index.php");
                 exit();
             } else {
                 echo "Mật khẩu không đúng.";

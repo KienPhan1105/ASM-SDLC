@@ -1,5 +1,7 @@
-<?php include 'connect.php'; ?>
-
+<?php
+session_start(); // BẮT BUỘC nếu dùng $_SESSION
+include 'connect.php';
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -8,92 +10,133 @@
   <title>Bệnh viện BTEC FPT</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #fff7f0;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #ff6f00;
-      color: white;
-    }
-    .navbar-nav .nav-link {
-      color: white !important;
-    }
-    .service-box {
-      border-radius: 10px;
-      background: white;
-      padding: 15px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      transition: transform 0.2s;
-      height: 100%;
-    }
-    .service-box:hover {
-      transform: translateY(-5px);
-    }
-    .service-box img {
-      max-width: 100%;
-      border-radius: 10px;
-    }
-    footer {
-      background-color: #ff6f00;
-      color: white;
-      padding: 20px 0;
-    }
-    .top-bar a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #ff6f00;
-      font-weight: bold;
-    }
-    .slideshow {
-      position: relative;
-      width: 100%;
-      max-width: 1200px;
-      margin: 20px auto;
-      aspect-ratio: 3/2;
-      overflow: hidden;
-      border-radius: 10px;
-    }
-    .slideshow img {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 0.5s;
-    }
-    .slideshow img.active {
-      opacity: 1;
-    }
-    .dots {
-      position: absolute;
-      bottom: 10px;
-      width: 100%;
-      text-align: center;
-    }
-    .dot {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      margin: 0 5px;
-      background: #fff4;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    .dot.active {
-      background: #fff;
-    }
-  </style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff7f0;
+    margin: 0;
+    padding: 0;
+  }
+
+  header, footer {
+    background-color: #ff6f00;
+    color: white;
+  }
+
+  .navbar-nav .nav-link {
+    color: white !important;
+  }
+
+  .top-bar a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #ff6f00;
+    font-weight: bold;
+  }
+
+  .service-box {
+    border-radius: 10px;
+    background: white;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+    height: 100%;
+  }
+
+  .service-box:hover {
+    transform: translateY(-5px);
+  }
+
+  .service-box img {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+
+  .slideshow {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  .slideshow img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .slideshow img.active {
+    opacity: 1;
+  }
+
+  .dots {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 0 5px;
+    background: #fff4;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .dot.active {
+    background: #fff;
+  }
+
+  .custom-orange-dark {
+    color: #E65100;
+  }
+
+  .custom-btn {
+    background-color: transparent;
+    border: 1px solid #ff9f43;
+    color: #ff9f43;
+    transition: 0.3s;
+  }
+
+  .custom-btn:hover {
+    background-color: #ff9f43;
+    color: white;
+    border-color: #ff9f43;
+    box-shadow: 0 2px 6px rgba(255, 159, 67, 0.4);
+  }
+</style>
+
 </head>
 <body>
 
 <!-- Thanh trên cùng -->
-<div class="top-bar text-end pe-4 py-2 bg-white shadow-sm container-fluid d-flex justify-content-end align-items-center">
-  <a href="login.html">Đăng nhập</a> |
-  <a href="register.html">Đăng ký</a>
+<div class="top-bar bg-light shadow-sm py-2 px-4 d-flex justify-content-between align-items-center border-bottom position-sticky top-0 z-3">
+  <div class="logo fw-bold custom-orange-dark d-flex align-items-center fs-5">
+    <i class="bi bi-hospital-fill me-2 fs-4"></i> BTEC FPT HOSPITAL
+  </div>
+
+  <div class="user-actions d-flex align-items-center">
+    <?php if (isset($_SESSION['user_name'])): ?>
+      <div class="d-flex align-items-center me-3">
+        <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($_SESSION['user_name']); ?>&background=random" alt="User Avatar" class="rounded-circle shadow-sm me-2" width="36" height="36">
+        <span class="fw-semibold text-dark">Xin chào, <strong><?php echo $_SESSION['user_name']; ?></strong></span>
+      </div>
+      <a href="logout.php" class="btn btn-sm btn-danger shadow-sm">Đăng xuất</a>
+    <?php else: ?>
+      <a href="login.html" class="btn btn-sm custom-btn me-2">Đăng nhập</a>
+      <a href="register.html" class="btn btn-sm custom-btn">Đăng ký</a>
+    <?php endif; ?>
+  </div>
 </div>
 
 <header class="py-3">
@@ -230,6 +273,91 @@
   function start() { timer = setInterval(next, 3000); }
 
   start();
+</script>
+
+<!-- Chat với AI -->
+<div id="chat-widget" class="position-fixed bottom-0 end-0 m-3" style="z-index: 1050;">
+  <div id="chat-box" class="card shadow-lg" style="width: 320px; display: none;">
+    <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+      <span>Trợ lý AI</span>
+      <button type="button" class="btn-close btn-sm" onclick="toggleChat()"></button>
+    </div>
+    <div class="card-body p-2" style="height: 280px; overflow-y: auto;">
+      <label for="message" class="form-label small">Nhập câu hỏi:</label>
+      <textarea id="message" class="form-control mb-2" rows="3" placeholder="Ví dụ: tôi đang bị đau đầu..." required></textarea>
+      <button id="sendBtn" class="btn btn-sm btn-warning w-100 text-white" onclick="sendMessage()">
+        <span id="send-text">📨 Gửi câu hỏi</span>
+        <span id="loading-icon" class="spinner-border spinner-border-sm visually-hidden ms-2" role="status"></span>
+      </button>
+      <div class="mt-2 small text-muted">📥 Phản hồi từ AI:</div>
+      <div id="response" class="border rounded p-2 small" style="background:#f9f9f9; white-space:pre-line;">Chúng tôi sẽ trả lời bạn sớm nhất.</div>
+    </div>
+  </div>
+  <button class="btn btn-warning rounded-circle shadow" style="width: 50px; height: 50px;" onclick="toggleChat()">💬</button>
+</div>
+
+<script>
+  const prompt = `Chào bạn, với vai trò là chuyên viên tư vấn tại BTEC FPT Hospital, bạn hãy hỗ trợ 
+  khách hàng một cách tận tình bằng cách cung cấp thông tin dễ hiểu, ngắn gọn và chính xác về các 
+  dịch vụ khám bệnh, chi phí cũng như quy trình thăm khám.`;
+  let database_info = ""; // Không dùng PHP ở đây
+
+  function toggleChat() {
+    const box = document.getElementById("chat-box");
+    box.style.display = box.style.display === "none" ? "block" : "none";
+  }
+
+  function sendMessage() {
+    const msg = document.getElementById("message").value.trim();
+    const responseDiv = document.getElementById("response");
+    const btn = document.getElementById("sendBtn");
+    const spinner = document.getElementById("loading-icon");
+    const sendText = document.getElementById("send-text");
+
+    if (!msg) {
+      responseDiv.innerHTML = "❗ Vui lòng nhập nội dung câu hỏi.";
+      return;
+    }
+
+    spinner.classList.remove("visually-hidden");
+    sendText.textContent = "Đang gửi...";
+    btn.disabled = true;
+
+    const data = {
+      contents: [{
+        parts: [{
+          text: prompt + "\n\n" + database_info + "\n\nCâu hỏi: " + msg
+        }]
+      }]
+    };
+
+    fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-goog-api-key': 'AIzaSyB4jx2M8IkzDkxBCVF1HO1j5JxjVQgHakc'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.candidates && data.candidates.length > 0) {
+        const reply = data.candidates[0].content.parts[0].text;
+        responseDiv.innerHTML = `<strong>AI:</strong><br>${reply}`;
+      } else {
+        responseDiv.innerHTML = "❌ Không có phản hồi từ AI.";
+      }
+    })
+    .catch(err => {
+      console.error("Lỗi:", err);
+      responseDiv.innerHTML = "⚠️ Đã xảy ra lỗi khi gửi.";
+    })
+    .finally(() => {
+      spinner.classList.add("visually-hidden");
+      sendText.textContent = "📨 Gửi câu hỏi";
+      btn.disabled = false;
+    });
+  }
 </script>
 
 </body>

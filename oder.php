@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $fullname, $phone, $email, $service, $doctor, $date, $time, $note);
 
         if (mysqli_stmt_execute($stmt)) {
-            echo "<script>alert('Đặt lịch khám thành công!'); window.location.href = 'index.html';</script>";
+            echo "<script>alert('Đặt lịch khám thành công!'); window.location.href = 'index.php';</script>";
         } else {
             echo "<script>alert('Lỗi khi đặt lịch. Vui lòng thử lại.'); history.back();</script>";
         }

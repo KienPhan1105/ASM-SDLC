@@ -1,4 +1,7 @@
-<?php include 'connect.php'; ?>
+<?php
+session_start();
+include 'connect.php';
+?>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -92,9 +95,19 @@
 
 <!-- Thanh trên cùng -->
 <div class="top-bar text-end pe-4 py-2 bg-white shadow-sm container-fluid d-flex justify-content-end align-items-center">
-  <a href="login.html">Đăng nhập</a> |
-  <a href="register.html">Đăng ký</a>
-</div>
+    <?php if (isset($_SESSION['username'])): ?>
+      <span class="me-2">👋 Xin chào, <strong><?php echo $_SESSION['username']; ?></strong></span>
+      <a href="logout.php" class="btn btn-sm btn-outline-danger ms-2">Đăng xuất</a>
+    <?php else: ?>
+      <a href="login.html" class="btn btn-sm btn-outline-primary me-2">Đăng nhập</a>
+      <a href="register.html" class="btn btn-sm btn-outline-success">Đăng ký</a>
+    <?php endif; ?>
+  </div>
+
+  <div class="container mt-5">
+    <h1>Chào mừng đến với hệ thống</h1>
+    <p>Trang web quản lý đăng nhập - đăng ký đơn giản bằng PHP và MySQL.</p>
+  </div>
 
 <header class="py-3">
   <div class="container d-flex flex-wrap align-items-center justify-content-between">
