@@ -1,56 +1,145 @@
 <?php
-//sử dụng file connect.php
-//require/include
 include "connect.php";
-//6. Kiểm tra phương thức gửi dữ liệu của form: POST?
-//Khai báo biến $fullname, khởi tạo giá trị biến $fullname = 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $_POST['fullname'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $phone = $_POST['phone'];
     $address = $_POST['address'];
+    $role = $_POST['role']; // Lấy giá trị từ form
 
-    // Kiểm tra xem email đã tồn tại chưa
-    //tạo query kiểm tra email trong toàn bộ bảng user
     $check_query = "SELECT * FROM Users WHERE Email = ?";
-    //chuẩn bị câu lệnh query tuy nhiên dấu dữ liệu truyền vào
     $stmt = mysqli_prepare($conn, $check_query);
 
     if ($stmt) {
-        //truyền giá trị cho biến trong câu lệnh query qua functionmysqli_stmt_bind_param
         mysqli_stmt_bind_param($stmt, "s", $email);
-        //Thực hiện câu lệnh query qua funct mysqli_stmt_execute
         mysqli_stmt_execute($stmt);
-        //Lấy kết quả query qua funct mysqli_stmt_store_result
         mysqli_stmt_store_result($stmt);
 
         if (mysqli_stmt_num_rows($stmt) > 0) {
-            echo "Email đã tồn tại. Vui lòng chọn email khác.";
+            $error_message = "Email đã tồn tại. Vui lòng chọn email khác.";
         } else {
-            // Email chưa tồn tại, thêm người dùng mới
-            $insert_query = "INSERT INTO Users (FullName, Email, PasswordHash, PhoneNumber, Address) VALUES (?, ?, ?, ?, ?)";
+            $insert_query = "INSERT INTO Users (FullName, Email, PasswordHash, PhoneNumber, Address, Role) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt_insert = mysqli_prepare($conn, $insert_query);
 
             if ($stmt_insert) {
-                mysqli_stmt_bind_param($stmt_insert, "sssss", $fullname, $email, $password, $phone, $address);
+                mysqli_stmt_bind_param($stmt_insert, "ssssss", $fullname, $email, $password, $phone, $address, $role);
                 if (mysqli_stmt_execute($stmt_insert)) {
-                    // Đăng ký thành công, chuyển sang form đăng nhập
-                    header("Location: login.html");
+                    header("Location: login.php");
                     exit();
                 } else {
-                    echo "Lỗi khi thêm người dùng: " . mysqli_error($conn);
+                    $error_message = "Lỗi khi thêm người dùng: " . mysqli_error($conn);
                 }
                 mysqli_stmt_close($stmt_insert);
             } else {
-                echo "Lỗi chuẩn bị truy vấn đăng ký: " . mysqli_error($conn);
+                $error_message = "Lỗi chuẩn bị truy vấn đăng ký: " . mysqli_error($conn);
             }
         }
-
         mysqli_stmt_close($stmt);
     } else {
-        echo "Lỗi truy vấn kiểm tra email: " . mysqli_error($conn);
+        $error_message = "Lỗi truy vấn kiểm tra email: " . mysqli_error($conn);
     }
+
     mysqli_close($conn);
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng ký | Bệnh viện BTEC FPT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #fff7f0;
+      font-family: 'Roboto', sans-serif;
+    }
+    .form-container {
+      max-width: 520px;
+      margin: 60px auto;
+      padding: 35px 30px;
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #ff6f00;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    label {
+      font-weight: 500;
+      margin-top: 12px;
+    }
+    .form-control {
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+    .btn-custom {
+      background-color: #ff6f00;
+      color: white;
+      font-weight: bold;
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+    .btn-custom:hover {
+      background-color: #e65c00;
+    }
+    .form-select {
+      border-radius: 8px;
+    }
+    .error {
+      color: red;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <h2>Đăng ký tài khoản</h2>
+
+  <?php if (!empty($error_message)): ?>
+    <p class="error"><?= $error_message ?></p>
+  <?php endif; ?>
+
+  <form method="POST">
+    <label for="fullname">Họ và tên:</label>
+    <input type="text" class="form-control" id="fullname" name="fullname" required>
+
+    <label for="email">Email:</label>
+    <input type="email" class="form-control" id="email" name="email" required>
+
+    <label for="password">Mật khẩu:</label>
+    <input type="password" class="form-control" id="password" name="password" required>
+
+    <label for="phone">Số điện thoại:</label>
+    <input type="text" class="form-control" id="phone" name="phone">
+
+    <label for="address">Địa chỉ:</label>
+    <input type="text" class="form-control" id="address" name="address">
+
+    <div class="mb-3">
+      <label for="role" class="form-label">Vai trò:</label>
+      <select id="role" name="role" class="form-select" required>
+        <option value="" selected disabled>-- Chọn vai trò --</option>
+        <option value="user">Người dùng</option>
+        <option value="admin">Quản trị viên</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-custom mt-3">Đăng ký</button>
+  </form>
+
+  <p class="mt-3 text-center">Đã có tài khoản? <a href="login.php">Đăng nhập</a></p>
+</div>
+
+</body>
+</html>

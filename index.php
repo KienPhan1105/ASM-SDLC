@@ -135,8 +135,8 @@ include 'connect.php';
       </div>
       <a href="logout.php" class="btn btn-sm btn-danger shadow-sm">Đăng xuất</a>
     <?php else: ?>
-      <a href="login.html" class="btn btn-sm custom-btn me-2">Đăng nhập</a>
-      <a href="register.html" class="btn btn-sm custom-btn">Đăng ký</a>
+      <a href="login.php" class="btn btn-sm custom-btn me-2">Đăng nhập</a>
+      <a href="register.php" class="btn btn-sm custom-btn">Đăng ký</a>
     <?php endif; ?>
   </div>
 </div>

@@ -1,0 +1,43 @@
+<form method="POST">
+    <input type="hidden" name="id" id="id">
+    <input type="text" name="name" id="name" placeholder="Tên bác sĩ" required>
+    <input type="text" name="specialty" id="specialty" placeholder="Chuyên khoa" required>
+    <input type="text" name="phone" id="phone" placeholder="Số điện thoại" required>
+    <input type="email" name="email" id="email" placeholder="Email" required>
+    <input type="text" name="available_days" id="available_days" placeholder="Ngày làm việc (vd: 2,3,4)" required>
+    <input type="text" name="available_times" id="available_times" placeholder="Giờ làm việc (vd: 08:00-17:00)" required>
+    <input type="text" name="note" id="note" placeholder="Ghi chú">
+    <button type="submit" name="save_doctor" class="btn">Lưu</button>
+  </form>
+
+  <table>
+    <tr>
+      <th>ID</th><th>Tên</th><th>Chuyên khoa</th><th>SĐT</th><th>Email</th><th>Ngày</th><th>Giờ</th><th>Ghi chú</th><th>Hành động</th>
+    </tr>
+    <?php while ($row = mysqli_fetch_assoc($doctors)): ?>
+      <tr>
+        <td><?= $row['id'] ?></td>
+        <td><?= htmlspecialchars($row['name']) ?></td>
+        <td><?= htmlspecialchars($row['specialty']) ?></td>
+        <td><?= htmlspecialchars($row['phone']) ?></td>
+        <td><?= htmlspecialchars($row['email']) ?></td>
+        <td><?= htmlspecialchars($row['available_days']) ?></td>
+        <td><?= htmlspecialchars($row['available_times']) ?></td>
+        <td><?= htmlspecialchars($row['note']) ?></td>
+        <td>
+          <button class="btn edit-btn" onclick="editDoctor(
+            '<?= $row['id'] ?>', '<?= htmlspecialchars($row['name']) ?>',
+            '<?= htmlspecialchars($row['specialty']) ?>', '<?= htmlspecialchars($row['phone']) ?>',
+            '<?= htmlspecialchars($row['email']) ?>', '<?= htmlspecialchars($row['available_days']) ?>',
+            '<?= htmlspecialchars($row['available_times']) ?>', '<?= htmlspecialchars($row['note']) ?>'
+          )">Sửa</button>
+          <a href="?delete_doctor=<?= $row['id'] ?>" class="btn delete-btn" onclick="return confirm('Xóa bác sĩ này?')">Xóa</a>
+        </td>
+      </tr>
+    <?php endwhile; ?>
+  </table>
+
+  <a href="index.php" class="btn back-btn">Trang người dùng</a>
+</div>
+
+  </div>
