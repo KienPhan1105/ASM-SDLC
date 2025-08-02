@@ -20,6 +20,7 @@ function editDoctor(id, name, specialty, phone, email, days, times, note) {
 function editPayment(id, orderId, amount, status) {
   showSection('section-payment');
   document.getElementById('payment_id').value = id;
+  document.getElementById('payment_appointment_id').value = appointmentId;
   document.getElementById('payment_order_id').value = orderId;
   document.getElementById('payment_amount').value = amount;
   document.getElementById('payment_status').value = status;
