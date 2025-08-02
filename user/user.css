@@ -36,7 +36,7 @@ form select {
 }
 
 form button[type="submit"] {
-    background-color: #de98d1;
+    background-color: #f37021;
     color: white;
     border: none;
     margin: 10px 20px;
@@ -46,7 +46,7 @@ form button[type="submit"] {
 }
 
 form button[type="submit"]:hover {
-    background-color: #8cd0ec;
+    background-color: mediumpurple;
 }
 
 /* Bảng dữ liệu */
@@ -65,7 +65,7 @@ th, td {
 }
 
 th {
-    background-color: #de98d1;
+    background-color: #f37021;
     color: white;
 }
 
@@ -87,7 +87,7 @@ td {
 }
 
 .edit-btn {
-    background-color: #8cd0ec;
+    background-color: #f37021;
 }
 
 .delete-btn {
@@ -127,7 +127,7 @@ td {
 
     th {
         text-align: left;
-        background-color: #de98d1;
+        background-color: #f37021;
         color: white;
     }
 
